@@ -1,16 +1,23 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mpos/app/multibloc.wrapper.dart';
-import 'package:mpos/core/web_socket/web_socket_cubit.dart';
+import 'package:mpos/core/animations/user.animate.dart';
+import 'package:mpos/core/config/web_socket/web_socket_cubit.dart';
+import 'package:mpos/routers/routers.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlockWrapper(child: MaterialApp(home: WebSocketPage()));
+    return MultiBlockWrapper(
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routerConfig: routerConfig,
+        builder: EasyLoading.init(),
+      ),
+    );
   }
 }
 
@@ -22,121 +29,44 @@ class WebSocketPage extends StatefulWidget {
 }
 
 class _WebSocketPageState extends State<WebSocketPage> {
-  final _controller = TextEditingController();
-
-  void _send(String type, Map<String, dynamic> data) {
-    final ws = context.read<WebSocketCubit>();
-    final message = jsonEncode({'type': type, ...data});
-
-    // send to server (as client)
-    for (final client in ws.state.clientinfo) {
-      client.socket.add(message);
-    }
+  @override
+  void initState() {
+    super.initState();
   }
+
+  // conntectionInit() async {
+  //   var state = context.read<WebSocketCubit>().state;
+  //   if (state.serverAddress != null) {
+  //     var ws = await WebSocket.connect(state.serverAddress!);
+  //     ws.listen((data) {
+  //       final json = jsonDecode(data);
+  //       final type = json['type'];
+  //       final todoData = json['todo'];
+
+  //       final todo = Todo.fromJson(todoData);
+  //       var updatedTodos = [...state.todos];
+
+  //       switch (type) {
+  //         case 'add':
+  //           if (!updatedTodos.any((t) => t.uuid == todo.uuid)) {
+  //             updatedTodos.add(todo);
+  //           }
+  //           break;
+  //         case 'update':
+  //           final index = updatedTodos.indexWhere((t) => t.uuid == todo.uuid);
+  //           if (index != -1) updatedTodos[index] = todo;
+  //           break;
+  //         case 'delete':
+  //           updatedTodos.removeWhere((t) => t.uuid == todo.uuid);
+  //           break;
+  //       }
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     final c = context.watch<WebSocketCubit>().state;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('WebSocket Server ${c.todos.length}'),
-        actions: [
-          ElevatedButton(
-            onPressed: () async {
-              if (c.status == Status.running) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Server already running!")),
-                );
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Starting Server Please wait")),
-                );
-                context.read<WebSocketCubit>().startServer();
-              }
-            },
-            child: const Text('Start'),
-          ),
-        ],
-      ),
-      body: Row(
-        children: [
-          /// ✅ Left panel – Todos
-          Expanded(
-            child: Column(
-              children: [
-                if (c.status == Status.running)
-                  Text('Server IP: ${c.serverAddress}'),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _controller,
-                    decoration: InputDecoration(
-                      hintText: "New Todo",
-                      suffixIcon: IconButton(
-                        icon: Icon(Icons.send),
-                        onPressed: () {
-                          final id =
-                              DateTime.now().millisecondsSinceEpoch.toString();
-                          final todo = {
-                            'todo': {
-                              'id': id,
-                              'title': _controller.text,
-                              'isDone': false,
-                            },
-                          };
-                          _send('add', todo);
-                          _controller.clear();
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: ListView(
-                    children:
-                        c.todos.map((e) {
-                          return ListTile(
-                            title: Text(e.uuid),
-                            leading: Checkbox(
-                              value: e.completed,
-                              onChanged: (_) {
-                                _send('update', {
-                                  'todo': {
-                                    'id': e.id,
-                                    'title': e.title,
-                                    'isDone': !e.completed,
-                                  },
-                                });
-                              },
-                            ),
-                            trailing: IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () {
-                                _send('delete', {'id': e.id});
-                              },
-                            ),
-                          );
-                        }).toList(),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          /// ✅ Right panel – Client connections
-          Expanded(
-            child: ListView(
-              children: [
-                if (c.status == Status.running)
-                  Text('Server IP: ${c.serverAddress}'),
-                ...c.clientinfo.map((e) {
-                  return Text(e.socket.toString());
-                }),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+    return Scaffold(body: Row(children: [AvatarStackDemo()]));
   }
 }

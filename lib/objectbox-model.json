@@ -4,37 +4,119 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:559613480911329311",
-      "lastPropertyId": "4:6258041155844460521",
-      "name": "Todo",
+      "id": "1:3079696482064012066",
+      "lastPropertyId": "6:6390490432205283129",
+      "name": "Product",
       "properties": [
         {
-          "id": "1:3844198359139557568",
+          "id": "1:2102440587242354122",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:7079334096182597603",
-          "name": "uuid",
-          "type": 9
-        },
-        {
-          "id": "3:3044461163796467779",
+          "id": "2:6624258844909809346",
           "name": "title",
           "type": 9
         },
         {
-          "id": "4:6258041155844460521",
-          "name": "completed",
-          "type": 1
+          "id": "3:7374277942979016299",
+          "name": "price",
+          "type": 8
+        },
+        {
+          "id": "4:7394581538069555444",
+          "name": "createdById",
+          "type": 11,
+          "flags": 520,
+          "indexId": "1:4923767798324829620",
+          "relationTarget": "User"
+        },
+        {
+          "id": "5:155686163209350767",
+          "name": "updatedById",
+          "type": 11,
+          "flags": 520,
+          "indexId": "2:3883629149868385036",
+          "relationTarget": "User"
+        },
+        {
+          "id": "6:6390490432205283129",
+          "name": "updatedAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:6949737781690242534",
+      "lastPropertyId": "4:7011629977203674447",
+      "name": "Session",
+      "properties": [
+        {
+          "id": "1:6993829079223310342",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7176625743350098170",
+          "name": "ipAddress",
+          "type": 9
+        },
+        {
+          "id": "3:4436843320694373455",
+          "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "4:7011629977203674447",
+          "name": "userId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "3:8100857428879226498",
+          "relationTarget": "User"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:5534501282622182163",
+      "lastPropertyId": "5:292519247199670681",
+      "name": "User",
+      "properties": [
+        {
+          "id": "1:7639649624862707765",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3247867792769832863",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:5450044748404547202",
+          "name": "email",
+          "type": 9
+        },
+        {
+          "id": "4:6245681099530906654",
+          "name": "empId",
+          "type": 9
+        },
+        {
+          "id": "5:292519247199670681",
+          "name": "age",
+          "type": 6
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "1:559613480911329311",
-  "lastIndexId": "0:0",
+  "lastEntityId": "3:5534501282622182163",
+  "lastIndexId": "3:8100857428879226498",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
