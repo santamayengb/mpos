@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:mpos/common/side_nav.dart';
+import 'package:mpos/modules/product/pages/product.page.dart';
 import 'package:mpos/modules/user/pages/user.page.dart';
 import 'package:mpos/routers/router.name.dart';
 
@@ -24,6 +25,14 @@ final GoRouter routerConfig = GoRouter(
           builder: (context, state) {
             // context.read<TabCubit>().activeTab(Routes.client);
             return UserPage();
+          },
+        ),
+        GoRoute(
+          name: Routes.products,
+          path: "/products",
+          builder: (context, state) {
+            // context.read<TabCubit>().activeTab(Routes.client);
+            return ProductPage();
           },
         ),
       ],

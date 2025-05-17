@@ -174,24 +174,26 @@ class _UserPageState extends State<UserPage> {
           ),
         ),
         Expanded(
-          child: PaginatedDataTable2(
-            isHorizontalScrollBarVisible: true,
-            isVerticalScrollBarVisible: true,
-            columnSpacing: 4,
+          child: Card(
+            child: PaginatedDataTable2(
+              isHorizontalScrollBarVisible: true,
+              isVerticalScrollBarVisible: true,
+              columnSpacing: 4,
 
-            minWidth: 800,
-            columns: [
-              DataColumn2(label: Text('ID')),
-              DataColumn2(label: Text('Name')),
-              DataColumn2(label: Text('Email')),
-              DataColumn2(label: Text('IP')),
-              //
-              DataColumn2(label: Text('Status')),
-              DataColumn2(label: Text('Emp ID')),
-              DataColumn2(label: Text('Last Sync')),
-              DataColumn2(label: Text('Action')),
-            ],
-            source: MyDataTable(users, onlineEmpIds),
+              minWidth: 800,
+              columns: [
+                DataColumn2(label: Text('ID')),
+                DataColumn2(label: Text('Name')),
+                DataColumn2(label: Text('Email')),
+                DataColumn2(label: Text('IP')),
+                //
+                DataColumn2(label: Text('Status')),
+                DataColumn2(label: Text('Emp ID')),
+                DataColumn2(label: Text('Last Sync')),
+                DataColumn2(label: Text('Action')),
+              ],
+              source: MyDataTable(users, onlineEmpIds),
+            ),
           ),
         ),
       ],
