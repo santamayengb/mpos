@@ -3,6 +3,14 @@ import 'package:mpos/core/config/model/session.model.dart';
 import 'package:mpos/modules/user/model/user.model.dart';
 
 class UserService {
+  static User? _currentUser;
+
+  static User? get currentUser => _currentUser;
+
+  static void setCurrentUser(User user) {
+    _currentUser = user;
+  }
+
   /// Returns all users from the database
   static List<User> getAllUsers() {
     return userBox.getAll();

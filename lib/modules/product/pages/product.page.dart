@@ -51,6 +51,15 @@ class ProductPage extends StatelessWidget {
         ),
         Expanded(
           child: PaginatedDataTable2(
+            header: InkWell(
+              onTap: () {
+                ProductService.createProduct(
+                  faker.food.dish(),
+                  double.parse(faker.randomGenerator.fromPattern(['####'])),
+                );
+              },
+              child: Text("Products"),
+            ),
             isHorizontalScrollBarVisible: true,
             isVerticalScrollBarVisible: true,
             columnSpacing: 4,

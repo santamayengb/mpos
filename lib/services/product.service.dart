@@ -1,11 +1,14 @@
 import 'package:mpos/core/config/objectbox_helper.dart';
 import 'package:mpos/modules/product/model/product.model.dart';
+import 'package:mpos/core/config/objectbox_helper.dart';
+import 'package:mpos/modules/product/model/product.model.dart';
+import 'package:mpos/services/user.service.dart'; // Import to access currentUser
 
 class ProductService {
   static int createProduct(String title, double price) {
     final product = Product(title: title, price: price);
-    product.createdBy.target = currentUser;
-    product.updatedBy.target = currentUser;
+    product.createdBy.target = UserService.currentUser;
+    product.updatedBy.target = UserService.currentUser;
     product.updatedAt = DateTime.now();
     return productBox.put(product);
   }
@@ -25,7 +28,7 @@ class ProductService {
     if (title != null) product.title = title;
     if (price != null) product.price = price;
 
-    product.updatedBy.target = currentUser;
+    product.updatedBy.target = UserService.currentUser;
     product.updatedAt = DateTime.now();
     productBox.put(product);
     return true;

@@ -1,13 +1,27 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:mpos/app/app.dart';
 import 'package:mpos/core/config/objectbox_helper.dart';
-import 'dart:io';
+
+import 'package:mpos/services/user.service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initObjectBox(); // Important!
   // deleteObjectBoxDb();
+  simulateLoginUser();
+  final current = UserService.currentUser;
+  log("Simulate as Logged with user => ${current?.id} |  ${current?.name}");
+
   runApp(MyApp());
+}
+
+simulateLoginUser() {
+  final loggedInUser = UserService.getUserById(33);
+  if (loggedInUser != null) {
+    UserService.setCurrentUser(loggedInUser);
+  }
 }
 
 // void deleteObjectBoxDb() {
