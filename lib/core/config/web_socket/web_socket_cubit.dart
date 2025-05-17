@@ -59,8 +59,16 @@ class WebSocketCubit extends Cubit<WebSocketState> {
           }
 
           final query = userBox.query(User_.empId.equals(empId)).build();
+
           final user = query.findFirst();
-          query.close();
+          // query.close();
+
+          //        try {
+          //   final user = query.findFirst();
+          //   return user != null;
+          // } finally {
+          //   query.close();
+          // }
 
           if (user == null) {
             // SessionService.createSession(userId: user.id, ipAddress: ip);
@@ -119,9 +127,13 @@ class WebSocketCubit extends Cubit<WebSocketState> {
 
   bool _validateUser(String empId) {
     final query = userBox.query(User_.empId.equals(empId)).build();
-    final user = query.findFirst();
-    query.close();
-    return user != null;
+    // final user = query.findFirst();
+    try {
+      final user = query.findFirst();
+      return user != null;
+    } finally {
+      query.close();
+    }
   }
   // Future<void> _connectAsClient(String address) async {
   //   try {

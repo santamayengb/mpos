@@ -1,3 +1,4 @@
+import 'package:data_table_2/data_table_2.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,8 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     final users = UserService.getAllUsers();
+    final wsState = context.watch<WebSocketCubit>().state;
+    final onlineEmpIds = wsState.clientinfo.map((c) => c.empId).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,12 +49,26 @@ class _UserPageState extends State<UserPage> {
                 "Managment your team members and their account permission here",
               ),
               Gap(20),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     "All User ${users.length}",
                     style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      var obj = User(
+                        name: faker.person.name(),
+                        email: faker.internet.email(),
+                        empId: faker.randomGenerator.fromPattern(['####']),
+                        age: 10,
+                      );
+                      UserService.addUser(obj);
+                      setState(() {});
+                    },
+                    child: Text("dumm"),
                   ),
                   TextButton.icon(
                     icon: Icon(Icons.add),
@@ -156,17 +173,37 @@ class _UserPageState extends State<UserPage> {
             ],
           ),
         ),
-        Expanded(child: PaginatedUserTable()),
+        Expanded(
+          child: PaginatedDataTable2(
+            isHorizontalScrollBarVisible: true,
+            isVerticalScrollBarVisible: true,
+            columnSpacing: 4,
+
+            minWidth: 800,
+            columns: [
+              DataColumn2(label: Text('ID')),
+              DataColumn2(label: Text('Name')),
+              DataColumn2(label: Text('Email')),
+              DataColumn2(label: Text('IP')),
+              //
+              DataColumn2(label: Text('Status')),
+              DataColumn2(label: Text('Emp ID')),
+              DataColumn2(label: Text('Last Sync')),
+              DataColumn2(label: Text('Action')),
+            ],
+            source: MyDataTable(users, onlineEmpIds),
+          ),
+        ),
       ],
     );
   }
 }
 
-class UserDataSource extends DataTableSource {
+class MyDataTable extends DataTableSource {
   final List<User> users;
   final List<String> onlineEmpIds;
 
-  UserDataSource(this.users, this.onlineEmpIds);
+  MyDataTable(this.users, this.onlineEmpIds);
 
   void removeUser(int userId) {
     users.removeWhere((user) => user.id == userId);
@@ -174,23 +211,35 @@ class UserDataSource extends DataTableSource {
   }
 
   @override
-  DataRow getRow(int index) {
-    final user = users[index];
-    final isEven = index % 2 == 0;
-    return DataRow.byIndex(
-      index: index,
-      color: WidgetStatePropertyAll(
-        isEven ? Colors.white : Colors.grey.shade200,
-      ),
+  DataRow? getRow(int index) {
+    return DataRow2(
       cells: [
-        DataCell(Text("${user.id}")),
-        DataCell(Text(user.name)),
-        DataCell(Text(user.email)),
+        DataCell(Text("${users[index].id}")),
         DataCell(
-          Text((user.sessions.isNotEmpty) ? user.sessions.last.ipAddress : "-"),
+          Row(
+            spacing: 5,
+            children: [
+              CircleAvatar(
+                radius: 16,
+                backgroundImage: NetworkImage(
+                  faker.image.image(keywords: ['person']),
+                ),
+                backgroundColor: Colors.grey[200],
+              ),
+              Text(users[index].name),
+            ],
+          ),
+        ),
+        DataCell(Text(users[index].email)),
+        DataCell(
+          Text(
+            (users[index].sessions.isNotEmpty)
+                ? users[index].sessions.last.ipAddress
+                : "-",
+          ),
         ),
         DataCell(
-          onlineEmpIds.contains(user.empId)
+          onlineEmpIds.contains(users[index].empId)
               ? Container(
                 padding: EdgeInsets.all(2),
                 decoration: BoxDecoration(
@@ -208,13 +257,13 @@ class UserDataSource extends DataTableSource {
                 child: Text(" Offline ", style: TextStyle(color: Colors.white)),
               ),
         ),
-        DataCell(Text(user.empId)),
+        DataCell(Text(users[index].empId)),
         DataCell(
           Text(
-            (user.sessions.isNotEmpty)
+            (users[index].sessions.isNotEmpty)
                 ? DateFormat(
                   'MMM d, yyyy h:mm a',
-                ).format(user.sessions.last.createdAt)
+                ).format(users[index].sessions.last.createdAt)
                 : "-",
           ),
         ),
@@ -224,8 +273,8 @@ class UserDataSource extends DataTableSource {
               IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
               IconButton(
                 onPressed: () {
-                  UserService.deleteUser(user.id);
-                  removeUser(user.id); // Notify after deletion
+                  UserService.deleteUser(users[index].id);
+                  removeUser(users[index].id);
                 },
                 icon: Icon(Icons.delete),
               ),
@@ -244,34 +293,4 @@ class UserDataSource extends DataTableSource {
 
   @override
   int get selectedRowCount => 0;
-}
-
-class PaginatedUserTable extends StatelessWidget {
-  final List<User> users = UserService.getAllUsers();
-
-  PaginatedUserTable({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final wsState = context.watch<WebSocketCubit>().state;
-    final onlineEmpIds = wsState.clientinfo.map((c) => c.empId).toList();
-    return SingleChildScrollView(
-      child: PaginatedDataTable(
-        // header: Text('User List'),
-        columns: const [
-          DataColumn(label: Text('ID')),
-          DataColumn(label: Text('Name')),
-          DataColumn(label: Text('Email')),
-          DataColumn(label: Text('IP')),
-          DataColumn(label: Text('Status')),
-          DataColumn(label: Text('Emp ID')),
-          DataColumn(label: Text('Last Sync')),
-          DataColumn(label: Text('Action')),
-        ],
-        source: UserDataSource(users, onlineEmpIds),
-        rowsPerPage: 10,
-        showCheckboxColumn: false,
-      ),
-    );
-  }
 }
