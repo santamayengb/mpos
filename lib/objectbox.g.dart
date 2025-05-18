@@ -14,6 +14,9 @@ import 'package:objectbox/internal.dart'
 import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
+import 'common/models/brand.model.dart';
+import 'common/models/category.model.dart';
+import 'common/models/stock.model.dart';
 import 'core/config/model/session.model.dart';
 import 'modules/product/model/product.model.dart';
 import 'modules/user/model/user.model.dart';
@@ -22,85 +25,243 @@ export 'package:objectbox/objectbox.dart'; // so that callers only have to impor
 
 final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(1, 3079696482064012066),
-    name: 'Product',
-    lastPropertyId: const obx_int.IdUid(6, 6390490432205283129),
+    id: const obx_int.IdUid(1, 757038030552626001),
+    name: 'Brand',
+    lastPropertyId: const obx_int.IdUid(7, 3857647131038804553),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 2102440587242354122),
+        id: const obx_int.IdUid(1, 753227005851689987),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 6624258844909809346),
-        name: 'title',
+        id: const obx_int.IdUid(2, 707983477152611567),
+        name: 'name',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 7374277942979016299),
-        name: 'price',
-        type: 8,
+        id: const obx_int.IdUid(3, 8417105037504964716),
+        name: 'code',
+        type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 7394581538069555444),
+        id: const obx_int.IdUid(4, 1601758923216653097),
+        name: 'updatedAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 5855793083121594014),
+        name: 'createdAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 6346492434359104538),
         name: 'createdById',
         type: 11,
         flags: 520,
-        indexId: const obx_int.IdUid(1, 4923767798324829620),
+        indexId: const obx_int.IdUid(1, 2378601212270239134),
         relationTarget: 'User',
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 155686163209350767),
+        id: const obx_int.IdUid(7, 3857647131038804553),
         name: 'updatedById',
         type: 11,
         flags: 520,
-        indexId: const obx_int.IdUid(2, 3883629149868385036),
+        indexId: const obx_int.IdUid(2, 1261409847390530764),
+        relationTarget: 'User',
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[
+      obx_int.ModelBacklink(
+        name: 'products',
+        srcEntity: 'Product',
+        srcField: 'brand',
+      ),
+    ],
+  ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(2, 2862531837085710185),
+    name: 'Category',
+    lastPropertyId: const obx_int.IdUid(6, 1444539622859096610),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 4941640291386885904),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 8444746893368039679),
+        name: 'name',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 6785940215975262445),
+        name: 'createdById',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(3, 7944745983922318433),
         relationTarget: 'User',
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(6, 6390490432205283129),
+        id: const obx_int.IdUid(4, 1992453021231592898),
+        name: 'updatedById',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(4, 9037269825065628823),
+        relationTarget: 'User',
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 6478482595681777728),
+        name: 'createdAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 1444539622859096610),
         name: 'updatedAt',
         type: 10,
         flags: 0,
       ),
     ],
     relations: <obx_int.ModelRelation>[],
-    backlinks: <obx_int.ModelBacklink>[],
+    backlinks: <obx_int.ModelBacklink>[
+      obx_int.ModelBacklink(
+        name: 'products',
+        srcEntity: 'Product',
+        srcField: 'category',
+      ),
+    ],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(2, 6949737781690242534),
-    name: 'Session',
-    lastPropertyId: const obx_int.IdUid(4, 7011629977203674447),
+    id: const obx_int.IdUid(3, 6685153311776241511),
+    name: 'Product',
+    lastPropertyId: const obx_int.IdUid(12, 5495016995827350244),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 6993829079223310342),
+        id: const obx_int.IdUid(1, 9203273662103681673),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 7176625743350098170),
+        id: const obx_int.IdUid(2, 7880896038155460693),
+        name: 'name',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 3061198074763528211),
+        name: 'mrp',
+        type: 8,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 2244338512376078326),
+        name: 'retailPrice',
+        type: 8,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 481117281649105599),
+        name: 'productCode',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 1919907110583715838),
+        name: 'barcode',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 55532105754195248),
+        name: 'createdById',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(5, 8508149068730715768),
+        relationTarget: 'User',
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 8564732283164201461),
+        name: 'updatedById',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(6, 3952812321081377281),
+        relationTarget: 'User',
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(9, 2695629347705620141),
+        name: 'categoryId',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(7, 5089440599611235017),
+        relationTarget: 'Category',
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(10, 2013458829779878072),
+        name: 'brandId',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(8, 2968219557485157820),
+        relationTarget: 'Brand',
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(11, 665345294237485083),
+        name: 'updatedAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(12, 5495016995827350244),
+        name: 'createdAt',
+        type: 10,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(4, 5207507146523311251),
+    name: 'Session',
+    lastPropertyId: const obx_int.IdUid(4, 5393751387075993242),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 7054621572792764216),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 5029960473192729264),
         name: 'ipAddress',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 4436843320694373455),
+        id: const obx_int.IdUid(3, 8326048821180901377),
         name: 'createdAt',
         type: 10,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 7011629977203674447),
+        id: const obx_int.IdUid(4, 5393751387075993242),
         name: 'userId',
         type: 11,
         flags: 520,
-        indexId: const obx_int.IdUid(3, 8100857428879226498),
+        indexId: const obx_int.IdUid(9, 1267183113481556962),
         relationTarget: 'User',
       ),
     ],
@@ -108,37 +269,37 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(3, 5534501282622182163),
+    id: const obx_int.IdUid(5, 5374478091572802880),
     name: 'User',
-    lastPropertyId: const obx_int.IdUid(5, 292519247199670681),
+    lastPropertyId: const obx_int.IdUid(5, 7302865561024678652),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 7639649624862707765),
+        id: const obx_int.IdUid(1, 516842090240121287),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 3247867792769832863),
+        id: const obx_int.IdUid(2, 2974663747522843863),
         name: 'name',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 5450044748404547202),
+        id: const obx_int.IdUid(3, 6081783165507981086),
         name: 'email',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 6245681099530906654),
+        id: const obx_int.IdUid(4, 5592713975160595351),
         name: 'empId',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 292519247199670681),
+        id: const obx_int.IdUid(5, 7302865561024678652),
         name: 'age',
         type: 6,
         flags: 0,
@@ -152,6 +313,76 @@ final _entities = <obx_int.ModelEntity>[
         srcField: 'user',
       ),
     ],
+  ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(6, 4009495614405000760),
+    name: 'Stock',
+    lastPropertyId: const obx_int.IdUid(9, 3686325974243761766),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 1634822621474406207),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 5702995505457048608),
+        name: 'quantity',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 4935913688287794677),
+        name: 'productId',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(10, 7704797941914064649),
+        relationTarget: 'Product',
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 7453866626395740474),
+        name: 'createdById',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(11, 6492886860345219630),
+        relationTarget: 'User',
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 1012989002877958707),
+        name: 'updatedById',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(12, 4657158957983577148),
+        relationTarget: 'User',
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 4816433226301093363),
+        name: 'createdAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 4722445762652376738),
+        name: 'updatedAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 567653019861376982),
+        name: 'inStock',
+        type: 1,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(9, 3686325974243761766),
+        name: 'maxQuantity',
+        type: 6,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
   ),
 ];
 
@@ -193,8 +424,8 @@ Future<obx.Store> openStore({
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(3, 5534501282622182163),
-    lastIndexId: const obx_int.IdUid(3, 8100857428879226498),
+    lastEntityId: const obx_int.IdUid(6, 4009495614405000760),
+    lastIndexId: const obx_int.IdUid(12, 4657158957983577148),
     lastRelationId: const obx_int.IdUid(0, 0),
     lastSequenceId: const obx_int.IdUid(0, 0),
     retiredEntityUids: const [],
@@ -207,22 +438,114 @@ obx_int.ModelDefinition getObjectBoxModel() {
   );
 
   final bindings = <Type, obx_int.EntityDefinition>{
-    Product: obx_int.EntityDefinition<Product>(
+    Brand: obx_int.EntityDefinition<Brand>(
       model: _entities[0],
-      toOneRelations: (Product object) => [object.createdBy, object.updatedBy],
-      toManyRelations: (Product object) => {},
-      getId: (Product object) => object.id,
-      setId: (Product object, int id) {
+      toOneRelations: (Brand object) => [object.createdBy, object.updatedBy],
+      toManyRelations:
+          (Brand object) => {
+            obx_int.RelInfo<Product>.toOneBacklink(
+                  10,
+                  object.id,
+                  (Product srcObject) => srcObject.brand,
+                ):
+                object.products,
+          },
+      getId: (Brand object) => object.id,
+      setId: (Brand object, int id) {
         object.id = id;
       },
-      objectToFB: (Product object, fb.Builder fbb) {
-        final titleOffset = fbb.writeString(object.title);
+      objectToFB: (Brand object, fb.Builder fbb) {
+        final nameOffset = fbb.writeString(object.name);
+        final codeOffset = fbb.writeString(object.code);
+        fbb.startTable(8);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, nameOffset);
+        fbb.addOffset(2, codeOffset);
+        fbb.addInt64(3, object.updatedAt.millisecondsSinceEpoch);
+        fbb.addInt64(4, object.createdAt.millisecondsSinceEpoch);
+        fbb.addInt64(5, object.createdBy.targetId);
+        fbb.addInt64(6, object.updatedBy.targetId);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final nameParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final codeParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 8, '');
+        final updatedAtParam = DateTime.fromMillisecondsSinceEpoch(
+          const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0),
+        );
+        final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
+          const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0),
+        );
+        final object = Brand(
+          id: idParam,
+          name: nameParam,
+          code: codeParam,
+          updatedAt: updatedAtParam,
+          createdAt: createdAtParam,
+        );
+        object.createdBy.targetId = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          14,
+          0,
+        );
+        object.createdBy.attach(store);
+        object.updatedBy.targetId = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          16,
+          0,
+        );
+        object.updatedBy.attach(store);
+        obx_int.InternalToManyAccess.setRelInfo<Brand>(
+          object.products,
+          store,
+          obx_int.RelInfo<Product>.toOneBacklink(
+            10,
+            object.id,
+            (Product srcObject) => srcObject.brand,
+          ),
+        );
+        return object;
+      },
+    ),
+    Category: obx_int.EntityDefinition<Category>(
+      model: _entities[1],
+      toOneRelations: (Category object) => [object.createdBy, object.updatedBy],
+      toManyRelations:
+          (Category object) => {
+            obx_int.RelInfo<Product>.toOneBacklink(
+                  9,
+                  object.id,
+                  (Product srcObject) => srcObject.category,
+                ):
+                object.products,
+          },
+      getId: (Category object) => object.id,
+      setId: (Category object, int id) {
+        object.id = id;
+      },
+      objectToFB: (Category object, fb.Builder fbb) {
+        final nameOffset = fbb.writeString(object.name);
         fbb.startTable(7);
         fbb.addInt64(0, object.id);
-        fbb.addOffset(1, titleOffset);
-        fbb.addFloat64(2, object.price);
-        fbb.addInt64(3, object.createdBy.targetId);
-        fbb.addInt64(4, object.updatedBy.targetId);
+        fbb.addOffset(1, nameOffset);
+        fbb.addInt64(2, object.createdBy.targetId);
+        fbb.addInt64(3, object.updatedBy.targetId);
+        fbb.addInt64(4, object.createdAt.millisecondsSinceEpoch);
         fbb.addInt64(5, object.updatedAt.millisecondsSinceEpoch);
         fbb.finish(fbb.endTable());
         return object.id;
@@ -236,43 +559,160 @@ obx_int.ModelDefinition getObjectBoxModel() {
           4,
           0,
         );
-        final titleParam = const fb.StringReader(
+        final nameParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 6, '');
-        final priceParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          8,
-          0,
+        final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
+          const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0),
         );
         final updatedAtParam = DateTime.fromMillisecondsSinceEpoch(
           const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0),
         );
-        final object = Product(
+        final object = Category(
           id: idParam,
-          title: titleParam,
-          price: priceParam,
+          name: nameParam,
+          createdAt: createdAtParam,
           updatedAt: updatedAtParam,
         );
         object.createdBy.targetId = const fb.Int64Reader().vTableGet(
           buffer,
           rootOffset,
-          10,
+          8,
           0,
         );
         object.createdBy.attach(store);
         object.updatedBy.targetId = const fb.Int64Reader().vTableGet(
           buffer,
           rootOffset,
-          12,
+          10,
           0,
         );
         object.updatedBy.attach(store);
+        obx_int.InternalToManyAccess.setRelInfo<Category>(
+          object.products,
+          store,
+          obx_int.RelInfo<Product>.toOneBacklink(
+            9,
+            object.id,
+            (Product srcObject) => srcObject.category,
+          ),
+        );
+        return object;
+      },
+    ),
+    Product: obx_int.EntityDefinition<Product>(
+      model: _entities[2],
+      toOneRelations:
+          (Product object) => [
+            object.createdBy,
+            object.updatedBy,
+            object.category,
+            object.brand,
+          ],
+      toManyRelations: (Product object) => {},
+      getId: (Product object) => object.id,
+      setId: (Product object, int id) {
+        object.id = id;
+      },
+      objectToFB: (Product object, fb.Builder fbb) {
+        final nameOffset = fbb.writeString(object.name);
+        final productCodeOffset = fbb.writeString(object.productCode);
+        final barcodeOffset = fbb.writeString(object.barcode);
+        fbb.startTable(13);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, nameOffset);
+        fbb.addFloat64(2, object.mrp);
+        fbb.addFloat64(3, object.retailPrice);
+        fbb.addOffset(4, productCodeOffset);
+        fbb.addOffset(5, barcodeOffset);
+        fbb.addInt64(6, object.createdBy.targetId);
+        fbb.addInt64(7, object.updatedBy.targetId);
+        fbb.addInt64(8, object.category.targetId);
+        fbb.addInt64(9, object.brand.targetId);
+        fbb.addInt64(10, object.updatedAt.millisecondsSinceEpoch);
+        fbb.addInt64(11, object.createdAt.millisecondsSinceEpoch);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final nameParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final mrpParam = const fb.Float64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          8,
+          0,
+        );
+        final retailPriceParam = const fb.Float64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          10,
+          0,
+        );
+        final productCodeParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 12, '');
+        final barcodeParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 14, '');
+        final updatedAtParam = DateTime.fromMillisecondsSinceEpoch(
+          const fb.Int64Reader().vTableGet(buffer, rootOffset, 24, 0),
+        );
+        final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
+          const fb.Int64Reader().vTableGet(buffer, rootOffset, 26, 0),
+        );
+        final object = Product(
+          id: idParam,
+          name: nameParam,
+          mrp: mrpParam,
+          retailPrice: retailPriceParam,
+          productCode: productCodeParam,
+          barcode: barcodeParam,
+          updatedAt: updatedAtParam,
+          createdAt: createdAtParam,
+        );
+        object.createdBy.targetId = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          16,
+          0,
+        );
+        object.createdBy.attach(store);
+        object.updatedBy.targetId = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          18,
+          0,
+        );
+        object.updatedBy.attach(store);
+        object.category.targetId = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          20,
+          0,
+        );
+        object.category.attach(store);
+        object.brand.targetId = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          22,
+          0,
+        );
+        object.brand.attach(store);
         return object;
       },
     ),
     Session: obx_int.EntityDefinition<Session>(
-      model: _entities[1],
+      model: _entities[3],
       toOneRelations: (Session object) => [object.user],
       toManyRelations: (Session object) => {},
       getId: (Session object) => object.id,
@@ -313,7 +753,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
     ),
     User: obx_int.EntityDefinition<User>(
-      model: _entities[2],
+      model: _entities[4],
       toOneRelations: (User object) => [],
       toManyRelations:
           (User object) => {
@@ -377,41 +817,242 @@ obx_int.ModelDefinition getObjectBoxModel() {
         return object;
       },
     ),
+    Stock: obx_int.EntityDefinition<Stock>(
+      model: _entities[5],
+      toOneRelations:
+          (Stock object) => [
+            object.product,
+            object.createdBy,
+            object.updatedBy,
+          ],
+      toManyRelations: (Stock object) => {},
+      getId: (Stock object) => object.id,
+      setId: (Stock object, int id) {
+        object.id = id;
+      },
+      objectToFB: (Stock object, fb.Builder fbb) {
+        fbb.startTable(10);
+        fbb.addInt64(0, object.id);
+        fbb.addInt64(1, object.quantity);
+        fbb.addInt64(2, object.product.targetId);
+        fbb.addInt64(3, object.createdBy.targetId);
+        fbb.addInt64(4, object.updatedBy.targetId);
+        fbb.addInt64(5, object.createdAt.millisecondsSinceEpoch);
+        fbb.addInt64(6, object.updatedAt.millisecondsSinceEpoch);
+        fbb.addBool(7, object.inStock);
+        fbb.addInt64(8, object.maxQuantity);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final quantityParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          6,
+          0,
+        );
+        final maxQuantityParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          20,
+          0,
+        );
+        final inStockParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          18,
+          false,
+        );
+        final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
+          const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0),
+        );
+        final updatedAtParam = DateTime.fromMillisecondsSinceEpoch(
+          const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0),
+        );
+        final object = Stock(
+          id: idParam,
+          quantity: quantityParam,
+          maxQuantity: maxQuantityParam,
+          inStock: inStockParam,
+          createdAt: createdAtParam,
+          updatedAt: updatedAtParam,
+        );
+        object.product.targetId = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          8,
+          0,
+        );
+        object.product.attach(store);
+        object.createdBy.targetId = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          10,
+          0,
+        );
+        object.createdBy.attach(store);
+        object.updatedBy.targetId = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          12,
+          0,
+        );
+        object.updatedBy.attach(store);
+        return object;
+      },
+    ),
   };
 
   return obx_int.ModelDefinition(model, bindings);
+}
+
+/// [Brand] entity fields to define ObjectBox queries.
+class Brand_ {
+  /// See [Brand.id].
+  static final id = obx.QueryIntegerProperty<Brand>(_entities[0].properties[0]);
+
+  /// See [Brand.name].
+  static final name = obx.QueryStringProperty<Brand>(
+    _entities[0].properties[1],
+  );
+
+  /// See [Brand.code].
+  static final code = obx.QueryStringProperty<Brand>(
+    _entities[0].properties[2],
+  );
+
+  /// See [Brand.updatedAt].
+  static final updatedAt = obx.QueryDateProperty<Brand>(
+    _entities[0].properties[3],
+  );
+
+  /// See [Brand.createdAt].
+  static final createdAt = obx.QueryDateProperty<Brand>(
+    _entities[0].properties[4],
+  );
+
+  /// See [Brand.createdBy].
+  static final createdBy = obx.QueryRelationToOne<Brand, User>(
+    _entities[0].properties[5],
+  );
+
+  /// See [Brand.updatedBy].
+  static final updatedBy = obx.QueryRelationToOne<Brand, User>(
+    _entities[0].properties[6],
+  );
+
+  /// see [Brand.products]
+  static final products = obx.QueryBacklinkToMany<Product, Brand>(
+    Product_.brand,
+  );
+}
+
+/// [Category] entity fields to define ObjectBox queries.
+class Category_ {
+  /// See [Category.id].
+  static final id = obx.QueryIntegerProperty<Category>(
+    _entities[1].properties[0],
+  );
+
+  /// See [Category.name].
+  static final name = obx.QueryStringProperty<Category>(
+    _entities[1].properties[1],
+  );
+
+  /// See [Category.createdBy].
+  static final createdBy = obx.QueryRelationToOne<Category, User>(
+    _entities[1].properties[2],
+  );
+
+  /// See [Category.updatedBy].
+  static final updatedBy = obx.QueryRelationToOne<Category, User>(
+    _entities[1].properties[3],
+  );
+
+  /// See [Category.createdAt].
+  static final createdAt = obx.QueryDateProperty<Category>(
+    _entities[1].properties[4],
+  );
+
+  /// See [Category.updatedAt].
+  static final updatedAt = obx.QueryDateProperty<Category>(
+    _entities[1].properties[5],
+  );
+
+  /// see [Category.products]
+  static final products = obx.QueryBacklinkToMany<Product, Category>(
+    Product_.category,
+  );
 }
 
 /// [Product] entity fields to define ObjectBox queries.
 class Product_ {
   /// See [Product.id].
   static final id = obx.QueryIntegerProperty<Product>(
-    _entities[0].properties[0],
+    _entities[2].properties[0],
   );
 
-  /// See [Product.title].
-  static final title = obx.QueryStringProperty<Product>(
-    _entities[0].properties[1],
+  /// See [Product.name].
+  static final name = obx.QueryStringProperty<Product>(
+    _entities[2].properties[1],
   );
 
-  /// See [Product.price].
-  static final price = obx.QueryDoubleProperty<Product>(
-    _entities[0].properties[2],
+  /// See [Product.mrp].
+  static final mrp = obx.QueryDoubleProperty<Product>(
+    _entities[2].properties[2],
+  );
+
+  /// See [Product.retailPrice].
+  static final retailPrice = obx.QueryDoubleProperty<Product>(
+    _entities[2].properties[3],
+  );
+
+  /// See [Product.productCode].
+  static final productCode = obx.QueryStringProperty<Product>(
+    _entities[2].properties[4],
+  );
+
+  /// See [Product.barcode].
+  static final barcode = obx.QueryStringProperty<Product>(
+    _entities[2].properties[5],
   );
 
   /// See [Product.createdBy].
   static final createdBy = obx.QueryRelationToOne<Product, User>(
-    _entities[0].properties[3],
+    _entities[2].properties[6],
   );
 
   /// See [Product.updatedBy].
   static final updatedBy = obx.QueryRelationToOne<Product, User>(
-    _entities[0].properties[4],
+    _entities[2].properties[7],
+  );
+
+  /// See [Product.category].
+  static final category = obx.QueryRelationToOne<Product, Category>(
+    _entities[2].properties[8],
+  );
+
+  /// See [Product.brand].
+  static final brand = obx.QueryRelationToOne<Product, Brand>(
+    _entities[2].properties[9],
   );
 
   /// See [Product.updatedAt].
   static final updatedAt = obx.QueryDateProperty<Product>(
-    _entities[0].properties[5],
+    _entities[2].properties[10],
+  );
+
+  /// See [Product.createdAt].
+  static final createdAt = obx.QueryDateProperty<Product>(
+    _entities[2].properties[11],
   );
 }
 
@@ -419,46 +1060,92 @@ class Product_ {
 class Session_ {
   /// See [Session.id].
   static final id = obx.QueryIntegerProperty<Session>(
-    _entities[1].properties[0],
+    _entities[3].properties[0],
   );
 
   /// See [Session.ipAddress].
   static final ipAddress = obx.QueryStringProperty<Session>(
-    _entities[1].properties[1],
+    _entities[3].properties[1],
   );
 
   /// See [Session.createdAt].
   static final createdAt = obx.QueryDateProperty<Session>(
-    _entities[1].properties[2],
+    _entities[3].properties[2],
   );
 
   /// See [Session.user].
   static final user = obx.QueryRelationToOne<Session, User>(
-    _entities[1].properties[3],
+    _entities[3].properties[3],
   );
 }
 
 /// [User] entity fields to define ObjectBox queries.
 class User_ {
   /// See [User.id].
-  static final id = obx.QueryIntegerProperty<User>(_entities[2].properties[0]);
+  static final id = obx.QueryIntegerProperty<User>(_entities[4].properties[0]);
 
   /// See [User.name].
-  static final name = obx.QueryStringProperty<User>(_entities[2].properties[1]);
+  static final name = obx.QueryStringProperty<User>(_entities[4].properties[1]);
 
   /// See [User.email].
   static final email = obx.QueryStringProperty<User>(
-    _entities[2].properties[2],
+    _entities[4].properties[2],
   );
 
   /// See [User.empId].
   static final empId = obx.QueryStringProperty<User>(
-    _entities[2].properties[3],
+    _entities[4].properties[3],
   );
 
   /// See [User.age].
-  static final age = obx.QueryIntegerProperty<User>(_entities[2].properties[4]);
+  static final age = obx.QueryIntegerProperty<User>(_entities[4].properties[4]);
 
   /// see [User.sessions]
   static final sessions = obx.QueryBacklinkToMany<Session, User>(Session_.user);
+}
+
+/// [Stock] entity fields to define ObjectBox queries.
+class Stock_ {
+  /// See [Stock.id].
+  static final id = obx.QueryIntegerProperty<Stock>(_entities[5].properties[0]);
+
+  /// See [Stock.quantity].
+  static final quantity = obx.QueryIntegerProperty<Stock>(
+    _entities[5].properties[1],
+  );
+
+  /// See [Stock.product].
+  static final product = obx.QueryRelationToOne<Stock, Product>(
+    _entities[5].properties[2],
+  );
+
+  /// See [Stock.createdBy].
+  static final createdBy = obx.QueryRelationToOne<Stock, User>(
+    _entities[5].properties[3],
+  );
+
+  /// See [Stock.updatedBy].
+  static final updatedBy = obx.QueryRelationToOne<Stock, User>(
+    _entities[5].properties[4],
+  );
+
+  /// See [Stock.createdAt].
+  static final createdAt = obx.QueryDateProperty<Stock>(
+    _entities[5].properties[5],
+  );
+
+  /// See [Stock.updatedAt].
+  static final updatedAt = obx.QueryDateProperty<Stock>(
+    _entities[5].properties[6],
+  );
+
+  /// See [Stock.inStock].
+  static final inStock = obx.QueryBooleanProperty<Stock>(
+    _entities[5].properties[7],
+  );
+
+  /// See [Stock.maxQuantity].
+  static final maxQuantity = obx.QueryIntegerProperty<Stock>(
+    _entities[5].properties[8],
+  );
 }

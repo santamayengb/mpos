@@ -16,6 +16,8 @@ class TabCubit extends Cubit<TabState> {
         emit(const TabState(Routes.products));
       case Routes.setting:
         emit(const TabState(Routes.setting));
+      case Routes.inventory:
+        emit(const TabState(Routes.inventory));
     }
   }
 }

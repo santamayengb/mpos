@@ -1,4 +1,4 @@
-import 'package:mpos/core/config/objectbox_helper.dart';
+import 'package:mpos/core/config/objectbox.helper.dart';
 import 'package:mpos/core/config/model/session.model.dart';
 import 'package:mpos/modules/user/model/user.model.dart';
 

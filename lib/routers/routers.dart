@@ -35,6 +35,14 @@ final GoRouter routerConfig = GoRouter(
             return ProductPage();
           },
         ),
+        GoRoute(
+          name: Routes.inventory,
+          path: "/inventory",
+          builder: (context, state) {
+            // context.read<TabCubit>().activeTab(Routes.client);
+            return Text("Inventory");
+          },
+        ),
       ],
     ),
 

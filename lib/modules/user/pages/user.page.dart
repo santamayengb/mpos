@@ -32,7 +32,9 @@ class _UserPageState extends State<UserPage> {
           actions: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: CircleAvatar(child: Text("A")),
+              child: CircleAvatar(
+                child: Text(UserService.currentUser!.name[0].toUpperCase()),
+              ),
             ),
           ],
         ),

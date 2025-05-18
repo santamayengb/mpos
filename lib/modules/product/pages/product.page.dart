@@ -1,13 +1,22 @@
+import 'package:barcode/barcode.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
+import 'package:mpos/common/services/stock.service.dart';
+import 'package:mpos/common/widgets/barcode.widget.dart';
+import 'package:mpos/common/widgets/progressbar.widget.dart';
 import 'package:mpos/modules/product/model/product.model.dart';
 import 'package:mpos/modules/product/widget/card.widget.dart';
 import 'package:mpos/services/product.service.dart';
 
-class ProductPage extends StatelessWidget {
+class ProductPage extends StatefulWidget {
   const ProductPage({super.key});
 
+  @override
+  State<ProductPage> createState() => _ProductPageState();
+}
+
+class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     var mq = MediaQuery.of(context).size;
@@ -50,33 +59,52 @@ class ProductPage extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: PaginatedDataTable2(
-            header: InkWell(
-              onTap: () {
-                ProductService.createProduct(
-                  faker.food.dish(),
-                  double.parse(faker.randomGenerator.fromPattern(['####'])),
-                );
-              },
-              child: Text("Products"),
-            ),
-            isHorizontalScrollBarVisible: true,
-            isVerticalScrollBarVisible: true,
-            columnSpacing: 4,
+          child: Container(
+            padding: EdgeInsets.all(20),
+            // color: Colors.white,
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                cardTheme: CardTheme(
+                  color: Colors.white,
+                  elevation: 1, // remove shadow
+                  margin: const EdgeInsets.all(0), // reset margin
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16), // Change radius
+                  ),
+                ),
+              ),
+              child: PaginatedDataTable2(
+                // headingRowColor: WidgetStatePropertyAll(),
+                header: InkWell(
+                  onTap: () {
+                    ProductService.createDummyProduct();
+                    setState(() {});
+                  },
+                  child: Text("Products"),
+                ),
+                isHorizontalScrollBarVisible: true,
+                isVerticalScrollBarVisible: true,
+                columnSpacing: 4,
 
-            minWidth: 800,
-            columns: [
-              DataColumn2(label: Text('ID')),
-              DataColumn2(label: Text('Name')),
-              DataColumn2(label: Text('Email')),
-              DataColumn2(label: Text('IP')),
-              //
-              DataColumn2(label: Text('Status')),
-              DataColumn2(label: Text('Emp ID')),
-              DataColumn2(label: Text('Last Sync')),
-              DataColumn2(label: Text('Action')),
-            ],
-            source: MyDataTable(products),
+                minWidth: 800,
+                columns: [
+                  DataColumn2(label: Text('ID')),
+                  DataColumn2(label: Text('Name')),
+                  DataColumn2(label: Text('Product Code')),
+                  DataColumn2(label: Text('Stock')),
+                  DataColumn2(label: Text('Category')),
+                  DataColumn2(label: Text('Brand')),
+                  DataColumn2(label: Text('MRP')),
+                  DataColumn2(label: Text('Retail Price')),
+                  DataColumn2(label: Text('Barcode')),
+                  DataColumn2(label: Text('Created By')),
+                  DataColumn2(label: Text('Action')),
+
+                  //
+                ],
+                source: MyDataTable(products),
+              ),
+            ),
           ),
         ),
       ],
@@ -89,8 +117,8 @@ class MyDataTable extends DataTableSource {
 
   MyDataTable(this.products);
 
-  void removeUser(int userId) {
-    products.removeWhere((user) => user.id == userId);
+  void removeProduct(int productId) {
+    products.removeWhere((product) => product.id == productId);
     notifyListeners(); // Triggers rebuild
   }
 
@@ -99,17 +127,60 @@ class MyDataTable extends DataTableSource {
     return DataRow2(
       cells: [
         DataCell(Text("${products[index].id}")),
+        DataCell(
+          InkWell(
+            onTap: () {
+              StockService.updateStock(
+                products[index],
+                faker.randomGenerator.integer(100),
+              );
+              notifyListeners();
+            },
+            child: Text(products[index].name),
+          ),
+        ),
+        DataCell(Text(products[index].productCode)),
 
-        DataCell(Text(products[index].title)),
-        DataCell(Text("${products[index].id}")),
+        DataCell(
+          StockProgressBar(
+            maxQuantity:
+                StockService.getStockForProduct(products[index])?.maxQuantity ??
+                0,
+            quantity:
+                StockService.getStockForProduct(products[index])?.quantity ?? 0,
+          ),
+        ),
+        DataCell(Text(products[index].category.target?.name ?? 'NA')),
 
-        DataCell(Text(products[index].title)),
-        DataCell(Text("${products[index].id}")),
-
-        DataCell(Text(products[index].title)),
-        DataCell(Text("${products[index].id}")),
-
-        DataCell(Text(products[index].title)),
+        DataCell(Text(products[index].brand.target?.name ?? 'NA')),
+        DataCell(Text("${products[index].mrp}")),
+        DataCell(Text("${products[index].retailPrice}")),
+        // DataCell(Text(products[index].barcode)),
+        DataCell(BarcodeWidget(data: products[index].barcode)),
+        DataCell(Text(products[index].createdBy.target!.name)),
+        DataCell(
+          Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  ProductService.deleteProduct(products[index].id);
+                  removeProduct(products[index].id);
+                },
+                icon: Icon(Icons.delete_forever),
+              ),
+              IconButton(
+                onPressed: () {
+                  StockService.createStock(
+                    product: products[index],
+                    quantity: 154,
+                  );
+                  notifyListeners();
+                },
+                icon: Icon(Icons.edit_document),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }

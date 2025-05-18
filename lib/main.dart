@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:mpos/app/app.dart';
-import 'package:mpos/core/config/objectbox_helper.dart';
+import 'package:mpos/core/config/objectbox.helper.dart';
 
 import 'package:mpos/services/user.service.dart';
 
@@ -18,7 +18,7 @@ void main() async {
 }
 
 simulateLoginUser() {
-  final loggedInUser = UserService.getUserById(33);
+  final loggedInUser = UserService.getUserById(1);
   if (loggedInUser != null) {
     UserService.setCurrentUser(loggedInUser);
   }
