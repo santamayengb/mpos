@@ -1,6 +1,8 @@
+import 'package:mpos/common/models/category.model.dart';
 import 'package:mpos/core/config/objectbox.helper.dart';
 import 'package:mpos/modules/product/model/product.model.dart';
 import 'package:mpos/modules/user/pages/user.page.dart';
+import 'package:mpos/objectbox.g.dart';
 
 import 'package:mpos/services/user.service.dart'; // Import to access currentUser
 
@@ -23,6 +25,37 @@ class ProductService {
     product.updatedBy.target = UserService.currentUser;
     product.updatedAt = DateTime.now();
     return productBox.put(product);
+  }
+
+  static void createDummyProducts({int count = 50}) {
+    final categories = categoryBox.getAll();
+    final brands = brandBox.getAll();
+
+    for (int i = 0; i < count; i++) {
+      final product = Product(
+        name: faker.food.dish(),
+        mrp: faker.randomGenerator.integer(1000, min: 50).toDouble(),
+        retailPrice: faker.randomGenerator.integer(1000, min: 50).toDouble(),
+        productCode: faker.randomGenerator.string(6).toUpperCase(),
+        barcode: faker.randomGenerator.numbers(9, 13).join(),
+      );
+
+      // Randomly assign category and brand if available
+      if (categories.isNotEmpty) {
+        product.category.target =
+            categories[faker.randomGenerator.integer(categories.length)];
+      }
+      if (brands.isNotEmpty) {
+        product.brand.target =
+            brands[faker.randomGenerator.integer(brands.length)];
+      }
+
+      product.createdBy.target = UserService.currentUser;
+      product.updatedBy.target = UserService.currentUser;
+      product.updatedAt = DateTime.now();
+
+      productBox.put(product);
+    }
   }
 
   static int createDummyProduct() {
@@ -67,20 +100,36 @@ class ProductService {
     return productBox.getAll();
   }
 
-  static bool updateProduct(int id, {String? title, double? price}) {
+  static bool updateProduct(
+    int id, {
+    String? name,
+    double? mrp,
+    Category? category, // Add this line
+  }) {
     final product = productBox.get(id);
     if (product == null) return false;
 
-    if (title != null) product.name = title;
-    if (price != null) product.mrp = price;
+    if (name != null) product.name = name;
+    if (mrp != null) product.mrp = mrp;
+    if (category != null) {
+      product.category.target = category; // Set category relation
+    }
 
     product.updatedBy.target = UserService.currentUser;
     product.updatedAt = DateTime.now();
-    productBox.put(product);
+    productBox.put(product); // Save the updated product
     return true;
   }
 
   static bool deleteProduct(int id) {
     return productBox.remove(id);
+  }
+
+  static List<Product> getProductsByCategory(Category category) {
+    final query =
+        productBox.query(Product_.category.equals(category.id)).build();
+    final products = query.find();
+    query.close();
+    return products;
   }
 }

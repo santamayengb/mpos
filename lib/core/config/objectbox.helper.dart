@@ -1,5 +1,6 @@
 import 'package:mpos/common/models/brand.model.dart';
 import 'package:mpos/common/models/category.model.dart';
+import 'package:mpos/common/models/product_unit.model.dart';
 import 'package:mpos/common/models/stock.model.dart';
 import 'package:mpos/core/config/model/session.model.dart';
 import 'package:mpos/modules/product/model/product.model.dart';
@@ -13,6 +14,7 @@ late final Box<Session> sessionBox;
 late final Box<Brand> brandBox;
 late final Box<Category> categoryBox;
 late final Box<Stock> stockBox;
+late final Box<ProductUnit> productUnitBox;
 
 late final User currentUser;
 
@@ -24,6 +26,7 @@ Future<void> initObjectBox() async {
   brandBox = store.box<Brand>();
   categoryBox = store.box<Category>();
   stockBox = store.box<Stock>();
+  productUnitBox = store.box<ProductUnit>();
 
   // Simulate login or default user
   // final users = userBox.getAll();

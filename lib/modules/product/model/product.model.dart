@@ -1,5 +1,6 @@
 import 'package:mpos/common/models/brand.model.dart';
 import 'package:mpos/common/models/category.model.dart';
+import 'package:mpos/common/models/product_unit.model.dart';
 import 'package:mpos/modules/user/model/user.model.dart';
 import 'package:objectbox/objectbox.dart';
 
@@ -18,6 +19,7 @@ class Product {
   final updatedBy = ToOne<User>();
   final category = ToOne<Category>();
   final brand = ToOne<Brand>();
+  final unit = ToOne<ProductUnit>(); // 👈 New relationship
 
   @Property(type: PropertyType.date)
   DateTime updatedAt;

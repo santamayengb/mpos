@@ -1,5 +1,6 @@
 import 'package:mpos/common/models/category.model.dart';
 import 'package:mpos/core/config/objectbox.helper.dart';
+import 'package:mpos/services/user.service.dart';
 
 class CategoryService {
   /// Create a new category
@@ -9,8 +10,8 @@ class CategoryService {
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );
-    category.createdBy.target = currentUser;
-    category.updatedBy.target = currentUser;
+    category.createdBy.target = UserService.currentUser;
+    category.updatedBy.target = UserService.currentUser;
     return categoryBox.put(category);
   }
 

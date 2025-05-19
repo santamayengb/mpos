@@ -2,6 +2,10 @@ import 'package:barcode/barcode.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_context_menu/flutter_context_menu.dart';
+import 'package:mpos/common/models/category.model.dart';
+import 'package:mpos/common/popup/category.popup.dart';
+import 'package:mpos/common/services/category.service.dart';
 import 'package:mpos/common/services/stock.service.dart';
 import 'package:mpos/common/widgets/barcode.widget.dart';
 import 'package:mpos/common/widgets/progressbar.widget.dart';
@@ -17,16 +21,31 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
+  late List<Product> products;
+  late List<Category> categories;
+  @override
+  void initState() {
+    products = ProductService.getAllProducts();
+    categories = CategoryService.getAllCategories();
+    super.initState();
+  }
+
+  Category? selectedCategory;
   @override
   Widget build(BuildContext context) {
     var mq = MediaQuery.of(context).size;
     var style = Theme.of(context).textTheme;
-    var products = ProductService.getAllProducts();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppBar(
-          title: Text("Products"),
+          title: InkWell(
+            onTap: () {
+              ProductService.createDummyProducts(count: 50);
+              setState(() {});
+            },
+            child: Text("Products"),
+          ),
           actions: [
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -75,12 +94,55 @@ class _ProductPageState extends State<ProductPage> {
               ),
               child: PaginatedDataTable2(
                 // headingRowColor: WidgetStatePropertyAll(),
-                header: InkWell(
-                  onTap: () {
-                    ProductService.createDummyProduct();
-                    setState(() {});
-                  },
-                  child: Text("Products"),
+                header: Row(
+                  spacing: 10,
+                  children: [
+                    Text("Products"),
+                    SizedBox(
+                      width: 200,
+                      child: DropdownButtonFormField<Category>(
+                        isDense: true,
+                        decoration: InputDecoration(
+                          labelText: 'Select Category',
+                          border:
+                              OutlineInputBorder(), // optional for outlined style
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
+                        ),
+                        value: selectedCategory,
+                        hint: Text("Select Category"),
+                        items: [
+                          DropdownMenuItem<Category>(
+                            value:
+                                null, // or a special Category instance if needed
+                            child: Text("All"),
+                          ),
+                          ...categories.map((e) {
+                            return DropdownMenuItem<Category>(
+                              value: e,
+                              child: Text(e.name),
+                            );
+                          }),
+                        ],
+                        onChanged: (value) {
+                          if (value != null) {
+                            setState(() {
+                              selectedCategory = value;
+                            });
+                            products = ProductService.getProductsByCategory(
+                              value,
+                            );
+                          } else {
+                            selectedCategory = null;
+                            products = ProductService.getAllProducts();
+                            setState(() {});
+                          }
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 isHorizontalScrollBarVisible: true,
                 isVerticalScrollBarVisible: true,
@@ -91,6 +153,7 @@ class _ProductPageState extends State<ProductPage> {
                   DataColumn2(label: Text('ID')),
                   DataColumn2(label: Text('Name')),
                   DataColumn2(label: Text('Product Code')),
+                  DataColumn2(label: Text('Unit')),
                   DataColumn2(label: Text('Stock')),
                   DataColumn2(label: Text('Category')),
                   DataColumn2(label: Text('Brand')),
@@ -102,7 +165,7 @@ class _ProductPageState extends State<ProductPage> {
 
                   //
                 ],
-                source: MyDataTable(products),
+                source: MyDataTable(products, context),
               ),
             ),
           ),
@@ -114,8 +177,9 @@ class _ProductPageState extends State<ProductPage> {
 
 class MyDataTable extends DataTableSource {
   final List<Product> products;
+  final BuildContext context;
 
-  MyDataTable(this.products);
+  MyDataTable(this.products, this.context);
 
   void removeProduct(int productId) {
     products.removeWhere((product) => product.id == productId);
@@ -140,6 +204,7 @@ class MyDataTable extends DataTableSource {
           ),
         ),
         DataCell(Text(products[index].productCode)),
+        DataCell(Text(products[index].unit.target?.name ?? ' ')),
 
         DataCell(
           StockProgressBar(
@@ -150,9 +215,55 @@ class MyDataTable extends DataTableSource {
                 StockService.getStockForProduct(products[index])?.quantity ?? 0,
           ),
         ),
-        DataCell(Text(products[index].category.target?.name ?? 'NA')),
 
-        DataCell(Text(products[index].brand.target?.name ?? 'NA')),
+        // DataCell(
+        //   Builder(
+        //     builder:
+        //         (cellContext) => InkWell(
+        //           onTap: () async {
+        //             final renderBox =
+        //                 cellContext.findRenderObject() as RenderBox;
+        //             final position = renderBox.localToGlobal(Offset.zero);
+
+        //             showContextMenu(
+        //               cellContext,
+
+        //               contextMenu: ContextMenu(
+        //                 position: position,
+        //                 entries: [MenuItem(label: "Edit Category")],
+        //               ),
+        //             );
+        //           },
+        //           child: Text(
+        //             products[index].category.target?.name ?? 'Uncategorised',
+        //           ),
+        //         ),
+        //   ),
+        // ),
+        DataCell(
+          InkWell(
+            onTap: () async {
+              final selectedCategory = await showDialog<Category>(
+                builder: (context) => CategorySelectionDialog(),
+                context: context,
+              );
+
+              if (selectedCategory != null) {
+                ProductService.updateProduct(
+                  products[index].id,
+                  category: selectedCategory,
+                );
+                products[index].category.target =
+                    selectedCategory; // Update in list
+                notifyListeners();
+              }
+            },
+            child: Text(
+              products[index].category.target?.name ?? 'Uncategorised',
+            ),
+          ),
+        ),
+        DataCell(Text(products[index].brand.target?.name ?? 'Unbrand')),
         DataCell(Text("${products[index].mrp}")),
         DataCell(Text("${products[index].retailPrice}")),
         // DataCell(Text(products[index].barcode)),
