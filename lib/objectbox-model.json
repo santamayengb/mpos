@@ -100,7 +100,7 @@
     },
     {
       "id": "3:6685153311776241511",
-      "lastPropertyId": "13:8449332809653793325",
+      "lastPropertyId": "14:7094515791465204622",
       "name": "Product",
       "properties": [
         {
@@ -183,6 +183,11 @@
           "flags": 520,
           "indexId": "13:6841375918041014601",
           "relationTarget": "ProductUnit"
+        },
+        {
+          "id": "14:7094515791465204622",
+          "name": "conversionFactor",
+          "type": 8
         }
       ],
       "relations": []

@@ -14,6 +14,7 @@ class Product {
   double retailPrice;
   String productCode;
   String barcode;
+  double? conversionFactor; // New field to store the conversion factor
 
   final createdBy = ToOne<User>();
   final updatedBy = ToOne<User>();
@@ -36,6 +37,7 @@ class Product {
     required this.retailPrice,
     required this.productCode,
     required this.barcode,
+    this.conversionFactor,
     DateTime? updatedAt,
     DateTime? createdAt,
   }) : updatedAt = updatedAt ?? DateTime.now(),

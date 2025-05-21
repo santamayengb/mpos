@@ -107,6 +107,7 @@ class ProductService {
     double? mrp,
     Category? category, // Add this line
     ProductUnit? unit,
+    double? conversionFactor, // Add this line
   }) {
     final product = productBox.get(id);
     if (product == null) return false;
@@ -118,6 +119,9 @@ class ProductService {
     }
     if (unit != null) {
       product.unit.target = unit; // Set unit relation
+    }
+    if (conversionFactor != null) {
+      product.conversionFactor = conversionFactor; // Set conversion factor
     }
 
     product.updatedBy.target = UserService.currentUser;

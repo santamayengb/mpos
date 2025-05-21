@@ -146,7 +146,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(3, 6685153311776241511),
     name: 'Product',
-    lastPropertyId: const obx_int.IdUid(13, 8449332809653793325),
+    lastPropertyId: const obx_int.IdUid(14, 7094515791465204622),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -236,6 +236,12 @@ final _entities = <obx_int.ModelEntity>[
         flags: 520,
         indexId: const obx_int.IdUid(13, 6841375918041014601),
         relationTarget: 'ProductUnit',
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(14, 7094515791465204622),
+        name: 'conversionFactor',
+        type: 8,
+        flags: 0,
       ),
     ],
     relations: <obx_int.ModelRelation>[],
@@ -702,7 +708,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final nameOffset = fbb.writeString(object.name);
         final productCodeOffset = fbb.writeString(object.productCode);
         final barcodeOffset = fbb.writeString(object.barcode);
-        fbb.startTable(14);
+        fbb.startTable(15);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, nameOffset);
         fbb.addFloat64(2, object.mrp);
@@ -716,6 +722,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addInt64(10, object.updatedAt.millisecondsSinceEpoch);
         fbb.addInt64(11, object.createdAt.millisecondsSinceEpoch);
         fbb.addInt64(12, object.unit.targetId);
+        fbb.addFloat64(13, object.conversionFactor);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -749,6 +756,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final barcodeParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 14, '');
+        final conversionFactorParam = const fb.Float64Reader()
+            .vTableGetNullable(buffer, rootOffset, 30);
         final updatedAtParam = DateTime.fromMillisecondsSinceEpoch(
           const fb.Int64Reader().vTableGet(buffer, rootOffset, 24, 0),
         );
@@ -762,6 +771,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           retailPrice: retailPriceParam,
           productCode: productCodeParam,
           barcode: barcodeParam,
+          conversionFactor: conversionFactorParam,
           updatedAt: updatedAtParam,
           createdAt: createdAtParam,
         );
@@ -1246,6 +1256,11 @@ class Product_ {
   /// See [Product.unit].
   static final unit = obx.QueryRelationToOne<Product, ProductUnit>(
     _entities[2].properties[12],
+  );
+
+  /// See [Product.conversionFactor].
+  static final conversionFactor = obx.QueryDoubleProperty<Product>(
+    _entities[2].properties[13],
   );
 }
 

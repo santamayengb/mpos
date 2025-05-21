@@ -272,7 +272,12 @@ class MyDataTable extends DataTableSource {
                 notifyListeners();
               }
             },
-            child: Text(products[index].unit.target?.shortName ?? ' - '),
+            child: Row(
+              children: [
+                Text(products[index].unit.target?.shortName ?? ' - '),
+                Text("/${products[index].conversionFactor}"),
+              ],
+            ),
           ),
         ),
 
