@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mpos/common/side_nav.dart';
 import 'package:mpos/modules/inventory/inventory.page.dart';
 import 'package:mpos/modules/product/pages/product.page.dart';
+import 'package:mpos/modules/report/report.page.dart';
 import 'package:mpos/modules/user/pages/user.page.dart';
 import 'package:mpos/routers/router.name.dart';
 
@@ -20,6 +21,14 @@ final GoRouter routerConfig = GoRouter(
         return SideNavPage(child: child);
       },
       routes: [
+        // GoRoute(
+        //   name: Routes.users,
+        //   path: "/users",
+        //   builder: (context, state) {
+        //     // context.read<TabCubit>().activeTab(Routes.client);
+        //     return UserPage();
+        //   },
+        // ),
         GoRoute(
           name: Routes.users,
           path: "/users",
@@ -42,6 +51,14 @@ final GoRouter routerConfig = GoRouter(
           builder: (context, state) {
             // context.read<TabCubit>().activeTab(Routes.client);
             return InventoryPage();
+          },
+        ),
+        GoRoute(
+          name: Routes.report,
+          path: "/report",
+          builder: (context, state) {
+            // context.read<TabCubit>().activeTab(Routes.client);
+            return ReportPage();
           },
         ),
       ],
