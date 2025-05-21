@@ -318,7 +318,7 @@
     },
     {
       "id": "7:3872344487223742721",
-      "lastPropertyId": "7:3410191938048276615",
+      "lastPropertyId": "9:8182059374123606014",
       "name": "ProductUnit",
       "properties": [
         {
@@ -362,6 +362,16 @@
           "id": "7:3410191938048276615",
           "name": "updatedAt",
           "type": 10
+        },
+        {
+          "id": "8:6730197495282128136",
+          "name": "baseUnit",
+          "type": 9
+        },
+        {
+          "id": "9:8182059374123606014",
+          "name": "conversionFactor",
+          "type": 8
         }
       ],
       "relations": []

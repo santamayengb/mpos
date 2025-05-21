@@ -396,7 +396,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(7, 3872344487223742721),
     name: 'ProductUnit',
-    lastPropertyId: const obx_int.IdUid(7, 3410191938048276615),
+    lastPropertyId: const obx_int.IdUid(9, 8182059374123606014),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -443,6 +443,18 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(7, 3410191938048276615),
         name: 'updatedAt',
         type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 6730197495282128136),
+        name: 'baseUnit',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(9, 8182059374123606014),
+        name: 'conversionFactor',
+        type: 8,
         flags: 0,
       ),
     ],
@@ -1009,7 +1021,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
       objectToFB: (ProductUnit object, fb.Builder fbb) {
         final nameOffset = fbb.writeString(object.name);
         final shortNameOffset = fbb.writeString(object.shortName);
-        fbb.startTable(8);
+        final baseUnitOffset =
+            object.baseUnit == null ? null : fbb.writeString(object.baseUnit!);
+        fbb.startTable(10);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, nameOffset);
         fbb.addOffset(2, shortNameOffset);
@@ -1017,6 +1031,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addInt64(4, object.updatedBy.targetId);
         fbb.addInt64(5, object.createdAt.millisecondsSinceEpoch);
         fbb.addInt64(6, object.updatedAt.millisecondsSinceEpoch);
+        fbb.addOffset(7, baseUnitOffset);
+        fbb.addFloat64(8, object.conversionFactor);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -1041,12 +1057,19 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final updatedAtParam = DateTime.fromMillisecondsSinceEpoch(
           const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0),
         );
+        final baseUnitParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 18);
+        final conversionFactorParam = const fb.Float64Reader()
+            .vTableGetNullable(buffer, rootOffset, 20);
         final object = ProductUnit(
           id: idParam,
           name: nameParam,
           shortName: shortNameParam,
           createdAt: createdAtParam,
           updatedAt: updatedAtParam,
+          baseUnit: baseUnitParam,
+          conversionFactor: conversionFactorParam,
         );
         object.createdBy.targetId = const fb.Int64Reader().vTableGet(
           buffer,
@@ -1355,6 +1378,16 @@ class ProductUnit_ {
   /// See [ProductUnit.updatedAt].
   static final updatedAt = obx.QueryDateProperty<ProductUnit>(
     _entities[6].properties[6],
+  );
+
+  /// See [ProductUnit.baseUnit].
+  static final baseUnit = obx.QueryStringProperty<ProductUnit>(
+    _entities[6].properties[7],
+  );
+
+  /// See [ProductUnit.conversionFactor].
+  static final conversionFactor = obx.QueryDoubleProperty<ProductUnit>(
+    _entities[6].properties[8],
   );
 
   /// see [ProductUnit.products]

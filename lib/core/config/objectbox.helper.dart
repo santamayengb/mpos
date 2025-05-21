@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:mpos/common/models/brand.model.dart';
 import 'package:mpos/common/models/category.model.dart';
 import 'package:mpos/common/models/product_unit.model.dart';
@@ -27,6 +29,14 @@ Future<void> initObjectBox() async {
   categoryBox = store.box<Category>();
   stockBox = store.box<Stock>();
   productUnitBox = store.box<ProductUnit>();
+
+  // final dozenUnit = ProductUnit(
+  //   name: "Dozen",
+  //   shortName: "dz",
+  //   baseUnit: "pc",
+  //   conversionFactor: 10.0,
+  // );
+  // productUnitBox.put(dozenUnit);
 
   // Simulate login or default user
   // final users = userBox.getAll();

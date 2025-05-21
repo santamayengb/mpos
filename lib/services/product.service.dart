@@ -1,4 +1,5 @@
 import 'package:mpos/common/models/category.model.dart';
+import 'package:mpos/common/models/product_unit.model.dart';
 import 'package:mpos/core/config/objectbox.helper.dart';
 import 'package:mpos/modules/product/model/product.model.dart';
 import 'package:mpos/modules/user/pages/user.page.dart';
@@ -105,6 +106,7 @@ class ProductService {
     String? name,
     double? mrp,
     Category? category, // Add this line
+    ProductUnit? unit,
   }) {
     final product = productBox.get(id);
     if (product == null) return false;
@@ -113,6 +115,9 @@ class ProductService {
     if (mrp != null) product.mrp = mrp;
     if (category != null) {
       product.category.target = category; // Set category relation
+    }
+    if (unit != null) {
+      product.unit.target = unit; // Set unit relation
     }
 
     product.updatedBy.target = UserService.currentUser;

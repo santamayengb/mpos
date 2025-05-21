@@ -3,9 +3,11 @@ import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:mpos/common/models/brand.model.dart';
 import 'package:mpos/common/models/category.model.dart';
+import 'package:mpos/common/models/product_unit.model.dart';
 import 'package:mpos/common/popup/category.popup.dart';
 import 'package:mpos/common/services/brand.service.dart';
 import 'package:mpos/common/services/category.service.dart';
+import 'package:mpos/common/services/product_unit.service.dart';
 import 'package:mpos/common/services/stock.service.dart';
 import 'package:mpos/common/widgets/barcode.widget.dart';
 import 'package:mpos/common/widgets/progressbar.widget.dart';
@@ -23,12 +25,14 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
   late List<Product> products;
   late List<Category> categories;
+  late List<ProductUnit> unit;
   late List<Brand> brands;
   @override
   void initState() {
     products = ProductService.getAllProducts();
     categories = CategoryService.getAllCategories();
     brands = BrandService.getAllBrands();
+    unit = ProductUnitService.getAllUnits();
     super.initState();
   }
 
@@ -252,7 +256,25 @@ class MyDataTable extends DataTableSource {
           ),
         ),
         DataCell(Text(products[index].productCode)),
-        DataCell(Text(products[index].unit.target?.name ?? ' ')),
+        DataCell(
+          InkWell(
+            onTap: () async {
+              final selectedUnit = await showDialog<ProductUnit>(
+                builder: (context) => UnitSelectionDialog(),
+                context: context,
+              );
+              if (selectedUnit != null) {
+                ProductService.updateProduct(
+                  products[index].id,
+                  unit: selectedUnit,
+                );
+                products[index].unit.target = selectedUnit;
+                notifyListeners();
+              }
+            },
+            child: Text(products[index].unit.target?.shortName ?? ' - '),
+          ),
+        ),
 
         DataCell(
           StockProgressBar(
